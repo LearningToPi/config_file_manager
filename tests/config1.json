@@ -1,0 +1,27 @@
+{
+    "key1": "value1",
+    "key2": 123,
+    "key3": [
+        1,
+        2,
+        3
+    ],
+    "key4": {
+        "subkey1": "subvalue1",
+        "subkey2": 456,
+        "subkey3": [
+            4,
+            5,
+            6
+        ],
+        "subkey4": {
+            "subsubkey1": "subsubvalue1",
+            "subsubkey2": 789,
+            "subsubkey3": [
+                7,
+                8,
+                9
+            ]
+        }
+    }
+}

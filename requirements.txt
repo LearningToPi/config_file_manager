@@ -1,0 +1,4 @@
+logging_handler
+cryptography
+PyYAML
+pymysql
