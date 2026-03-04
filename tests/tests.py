@@ -3,8 +3,8 @@ import json
 import yaml
 import os
 from logging_handler import create_logger, INFO
-from config_manager import ConfigDict, ConfigList, generate_encryption_key, load_file
-from config_manager.database import ConfigManagerDB
+from config_file_manager import ConfigDict, ConfigList, generate_encryption_key, load_file
+from config_file_manager.database import ConfigManagerDB
 
 
 class config_manager_test(unittest.TestCase):

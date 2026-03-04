@@ -1,28 +1,29 @@
 [project]
-name = "config_manager"
-version = "1.0.0"
+name = "config_file_manager"
+version = "1.0.1"
 description = "Python library to manage configuration files stored as JSON or in a database"
 authors = [{name = "Thomas Dunteman", email= "git@learningtopi.com"}]
 keywords = ["config", "database", "encryption"]
 readme = "README.md"
-requires-python =">=3.10"
+requires-python = ">=3.10"
 classifiers = [
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3"]
+	"License :: OSI Approved :: MIT License",
+	"Programming Language :: Python :: 3"]
 dependencies = [
-    "logging_handler",
-    "cryptography",
-    "PyYAML",
-    "pymysql"]
+	"logging_handler",
+	"cryptography",
+	"PyYAML",
+	"pymysql"]
 
 [project.optional-dependencies]
 mysql = ["pymysql"]
 all = ["config_manager[mysql]"]
 
 [project.urls]
-"Bug Tracker" = "https://github.com/LearningToPi/config_manager/issues"
-"Source Code" = "https://github.com/LearningToPi/config_manager"
+"bug tracker" = "https://github.com/LearningToPi/config_manager/issues"
+"source code" = "https://github.com/LearningToPi/config_manager"
 
 [build-system]
 requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
+
