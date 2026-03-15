@@ -1,3 +1,4 @@
+import json
 from collections import UserList, UserDict
 from typing import Any, Callable, Iterable
 from logging_handler import INFO, create_logger
@@ -99,6 +100,10 @@ class ConfigDict(UserDict):
             self._logger.error(f"Config key '{key}' not found when trying to decrypt")
             raise KeyError(f"Config key '{key}' not found when trying to decrypt")
 
+    def json(self, stringify=False):
+        ''' Return the config data as a json serializable dict '''
+        data = {key: value.json() if isinstance(value, (ConfigDict, ConfigList)) else value for key, value in self.data.items()}
+        return json.dumps(data) if stringify else data
 
 class ConfigList(UserList):
     ''' A simple config list that can be used to store and retrieve configuration data in a list format. 
@@ -280,3 +285,8 @@ class ConfigList(UserList):
         super().extend(other)
         if self._update_callback is not None:
             self._update_callback()
+
+    def json(self, stringify=False):
+        ''' Return the config data as a json serializable list '''
+        data = [item.json() if isinstance(item, (ConfigDict, ConfigList)) else item for item in self.data]
+        return json.dumps(data) if stringify else data
