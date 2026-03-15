@@ -1,6 +1,6 @@
 [project]
 name = "config_file_manager"
-version = "1.0.1"
+version = "1.0.2"
 description = "Python library to manage configuration files stored as JSON or in a database"
 authors = [{name = "Thomas Dunteman", email= "git@learningtopi.com"}]
 keywords = ["config", "database", "encryption"]
