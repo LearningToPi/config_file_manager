@@ -196,7 +196,12 @@ class ConfigList(UserList):
 
     def __setitem__(self, index: int, item: Any) -> None:
         ''' Update the config data when a config value is set '''
-        super().__setitem__(index, item)
+        if isinstance(item, list):
+            super().__setitem__(index, ConfigList(item, log_level=self._log_level, encryption_key=self._encryption_key, update_callback=self._update_callback))
+        elif isinstance(item, dict):
+            super().__setitem__(index, ConfigDict(item, log_level=self._log_level, encryption_key=self._encryption_key, update_callback=self._update_callback))
+        else:
+            super().__setitem__(index, item)
         if self._update_callback is not None:
             self._update_callback()
 
@@ -206,19 +211,33 @@ class ConfigList(UserList):
             self._update_callback()
 
     def __add__(self, other: Iterable):
-        return_data = super().__add__(other)
+        for item in other:
+            if isinstance(item, list):
+                self.append(ConfigList(item, log_level=self._log_level, encryption_key=self._encryption_key, update_callback=self._update_callback))
+            elif isinstance(item, dict):
+                self.append(ConfigDict(item, log_level=self._log_level, encryption_key=self._encryption_key, update_callback=self._update_callback))
+            else:
+                super().__add__(other)
         if self._update_callback is not None:
             self._update_callback()
-        return return_data
+        return self
 
     def __radd__(self, other: Iterable):
-        return_data = super().__radd__(other)
+        counter = 0
+        for item in other:
+            if isinstance(item, list):
+                super().insert(counter, ConfigList(item, log_level=self._log_level, encryption_key=self._encryption_key, update_callback=self._update_callback))
+            elif isinstance(item, dict):
+                super().insert(counter, ConfigDict(item, log_level=self._log_level, encryption_key=self._encryption_key, update_callback=self._update_callback))
+            else:
+                super().__radd__(other)
+            counter += 1
         if self._update_callback is not None:
             self._update_callback()
-        return return_data
+        return self
 
     def __iadd__(self, other: Iterable):
-        return_data = super().__iadd__(other)
+        return_data = self.__add__(other)
         if self._update_callback is not None:
             self._update_callback()
         return return_data
@@ -236,7 +255,12 @@ class ConfigList(UserList):
         return return_data
 
     def append(self, item: Any) -> None:
-        super().append(item)
+        if isinstance(item, list):
+            super().append(ConfigList(item, log_level=self._log_level, encryption_key=self._encryption_key, update_callback=self._update_callback))
+        elif isinstance(item, dict):
+            super().append(ConfigDict(item, log_level=self._log_level, encryption_key=self._encryption_key, update_callback=self._update_callback))
+        else:
+            super().append(item)
         if self._update_callback is not None:
             self._update_callback()
 
