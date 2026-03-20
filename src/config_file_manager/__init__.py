@@ -5,7 +5,7 @@ from .config_json import ConfigManagerJsonDict
 from .crypto import generate_encryption_key
 
 
-VERSION = (1, 0, 2)    # updated 2026-03-14 17:09:40.984713 from : (1, 0, 1)
+VERSION = (1, 0, 3)    # updated 2026-03-19 20:55:05.854283 from : (1, 0, 2)
 
 
 def load_file(filename:str, encryption_key:bytes|None=None, encryption_key_file:str|None=None, log_level=INFO, save_on_change=False):
