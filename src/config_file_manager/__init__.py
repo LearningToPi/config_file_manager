@@ -3,6 +3,7 @@ from .config import ConfigDict, ConfigList
 from .config_yaml import ConfigManagerYamlDict
 from .config_json import ConfigManagerJsonDict
 from .crypto import generate_encryption_key
+from .database import ConfigManagerDB
 
 
 VERSION = (1, 0, 3)    # updated 2026-03-19 20:55:05.854283 from : (1, 0, 2)
@@ -15,3 +16,14 @@ def load_file(filename:str, encryption_key:bytes|None=None, encryption_key_file:
     if filename.endswith('.yaml') or filename.endswith('.yml'):
         return ConfigManagerYamlDict(config_file=filename, log_level=log_level, encryption_key=encryption_key, encryption_key_file=encryption_key_file, save_on_change=save_on_change)
     raise ValueError(f"Unsupported config file type for file '{filename}'")
+
+
+def load_sqlite3_db(file_name:str, table:str='kv', encryption_key:bytes|None=None, encryption_key_file:str|None=None, log_level=INFO):
+    ''' Load or create a SQLite3 database and return a ConfigManagerDB instance '''
+    return ConfigManagerDB(database=file_name, db_type='sqlite3', table=table, log_level=log_level, encryption_key=encryption_key, encryption_key_file=encryption_key_file)
+
+
+def load_mysql_db(host:str, user:str, password:str, database:str, table:str, encryption_key:bytes|None=None, encryption_key_file:str|None=None, log_level=INFO):
+    ''' Load a MySQL database and return a ConfigManagerDB instance '''
+    return ConfigManagerDB(host=host, db_type='mysql',user=user, password=password, database=database, table=table, log_level=log_level, encryption_key=encryption_key,
+                           encryption_key_file=encryption_key_file)
