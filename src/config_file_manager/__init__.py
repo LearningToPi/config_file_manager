@@ -6,7 +6,7 @@ from .crypto import generate_encryption_key
 from .database import ConfigManagerDB
 
 
-VERSION = (1, 0, 4)    # updated 2026-09-12 21:51:46.665929 from : (1, 0, 3)
+VERSION = (1, 0, 5)    # updated 2026-09-13 19:20:53.654149 from : (1, 0, 4)
 
 
 def load_file(filename:str, encryption_key:bytes|None=None, encryption_key_file:str|None=None, log_level=INFO, save_on_change=False):
