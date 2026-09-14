@@ -63,3 +63,9 @@ class ConfigManagerJsonDict(ConfigDict):
         super().decrypt(key)
         if self._save_on_change:
             self.save_config()
+
+    def reload_config_from_file(self):
+        ''' Reload the config data from the JSON file - this will overwrite the current in-memory config data '''
+        with open(self._config_file, 'r', encoding='utf-8') as input_file:
+            config_data = json.loads(input_file.read())
+            self.load_config(config_data)
