@@ -382,6 +382,16 @@ class ConfigManagerDB(ConfigDict):
         except Exception as e:
             raise DBQueryError from e
 
+    def close(self):
+        ''' Close the database connection '''
+        if self._db_conn:
+            self._db_conn.close()
+            self._db_conn = None
+
+    def __del__(self):
+        ''' Destructor to ensure the database connection is closed '''
+        self.close()
+
     def __setitem__(self, key: Any, value: Any) -> None:
         ''' Update the config data in the SQL database when a config value is set '''
         self.set(key, value)
@@ -458,11 +468,22 @@ class ConfigManagerDB(ConfigDict):
         raise ValueError(f"DB Type '{self._db_type}' not known. {SUPPORTED_DB_TYPES}")
 
     def __repr__(self):
+        return {key: value for key, value in self.items()}.__repr__()
+
+    def db_info(self):
         ''' Return a string representation of the database connection '''
         if self._db_type == MYSQL:
             return f"{self.__class__.__name__}(host={self._db_conn.host}, port={self._db_conn.port}, db={self._db_conn.db.decode('utf-8')}, table={self._table}, ssl={self._db_conn.ssl}, connected={self.connected()})" # pyright: ignore[reportOptionalMemberAccess, reportAttributeAccessIssue]
         if self._db_type == SQLITE3:
             return f"{self.__class__.__name__}(file={self._db_file})"
+
+    def __contains__(self, key: Any) -> bool:
+        ''' Return True if the key exists in the database, False otherwise '''
+        try:
+            self.get(key, raise_not_found=True)
+            return True
+        except KeyError:
+            return False
 
     def get(self, key: Any, default: Any = None, raise_not_found:bool=False) -> Any:
         ''' Return the value from the database for the requested config key, or the default value if the key is not found '''
